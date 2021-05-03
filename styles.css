@@ -5,7 +5,7 @@ body {
   align-items: center;
   font-family: sans-serif;
   background: black;
-  color: magenta;
+  color: darkslateblue;
 }
 
 h1 {
@@ -30,7 +30,7 @@ h1 {
   padding: 150px 20px 20px 40px;
   justify-self: center;
   visibility: hidden;
-  color: green;
+  color: turquoise;
 }
 
 .playerCard label {
@@ -38,13 +38,13 @@ h1 {
   font-size: 18px;
   font-weight: bold;
   text-transform: uppercase;
-  color: darkgreen;
+  color: darkslateblue;
 }
 
 .playerCard div {
   font-size: 64px;
   font-weight: bold;
-  text-shadow: 0px 0px 12px magenta;
+  text-shadow: 0px 0px 12px #660099;
 }
 
 .playerCard.winner {
@@ -98,14 +98,20 @@ h1 {
 .cell {
   width: 100%;
   height: 100%;
-  background-color: #080808;
+  background-color: #111;
   text-align: center;
   line-height: 133px;
   font-size: 64px;
   transition: all .2s ease;
-  border: solid 1px green;
+  border: solid 1px turquoise;
   outline: solid 1px black;
   border-radius: 3px;
+}
+
+.cell:hover {
+  transition: all .2s ease;
+  border: solid 1px cyan;
+  box-shadow: 0px 0px 10px 2px darkturquoise;
 }
 
 .cell.winner {
@@ -132,17 +138,54 @@ button.reset {
   width: 200px;
   height: 28px;
   border-radius: 3px;
-  border: solid 1px green;
-  color: magenta;
-  text-shadow: 0px 0px 6px white;
+  border: solid 1px turquoise;
+  color: darkslateblue;
+  text-shadow: 0px 0px 8px magenta;
   text-transform: uppercase;
-  box-shadow: 0px 0px 14px 3px green;
+  box-shadow: 0px 0px 6px 3px rgba(255,0,255,0.5);
   outline: solid 1px black;
+}
+
+.status {
+  position: absolute;
+  top: 211px;
+  font-size: 114px;
+  width: 480px;
+  text-align: center;
+  text-transform: uppercase;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 8px;
+  border: solid 2px darkcyan;
+  
+}
+
+.hidden {
+  animation-name: fadeout;
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-direction: normal;
+}
+
+.removed {
+  display: none;
+}
+
+@keyframes fadeout {
+  from {
+    opacity: 1;
+    visibility: visible;
+  }
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
 }
 
 @keyframes glowfade {
   from {box-shadow: 0px 0px 12px 4px magenta;}
-  to {box-shadow: 0px 0px 2px 1px green;}
+  to {box-shadow: 0px 0px 2px 1px turquoise;}
 }
 
 @keyframes pulse {

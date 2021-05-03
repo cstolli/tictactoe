@@ -146,6 +146,27 @@ function bindClickListeners () {
 }
 
 /*
+/ start and manage the timing of a countdown to "go!" that starts the game
+**/
+function runCountdown() {
+  const status = document.querySelector('.status')
+  const animationInterval = 1000
+  const values = ['3', '2', '1', 'Go!']
+
+  status.classList.toggle('hidden')          /* display the status modal */
+
+  values.forEach((value, index) => {
+    setTimeout(() => {
+      status.innerText = value
+      if (value === 'Go!') {
+        status.classList.toggle('hidden')               /* hide it again */
+        updateCurrentPlayerDisplay()
+      }
+    }, animationInterval * index)
+  })
+}
+
+/*
 / reset game board display
 **/
 function resetBoard() {
@@ -163,8 +184,8 @@ function resetBoard() {
     playerCard.style.visibility = 'hidden'
   }
   bindClickListeners()
-  playerCards[0].style.visibility = 'visible'
   document.querySelector('button.reset').innerText = 'reset'
+  runCountdown()
 }
 
 /*
@@ -179,5 +200,5 @@ document.addEventListener('DOMContentLoaded', () => {
   bindClickListeners()
   const reset = document.querySelector('button')
   reset.addEventListener('click', resetBoard)
-  updateCurrentPlayerDisplay()
+  runCountdown()
 })
