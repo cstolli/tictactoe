@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h1>Tic Tac Toe</h1>
+    <div id='stage'>
+      <div class='playerCard col1 row1'>
+        <label>player</label>
+        <div>X</div>
+      </div>
+      <div id='board' class='col2 row1'>
+        <div id='0' class='cell col1 row1'></div>
+        <div id='1' class='cell col2 row1'></div>
+        <div id='2' class='cell col3 row1'></div>
+
+        <div id='3' class='cell col1 row2'></div>
+        <div id='4' class='cell col2 row2'></div>
+        <div id='5' class='cell col3 row2'></div>
+
+        <div id='6' class='cell col1 row3'></div>
+        <div id='7' class='cell col2 row3'></div>
+        <div id='8' class='cell col3 row3'></div>
+      </div>
+      <div class='playerCard col3 row1'>
+        <label>player</label>
+        <div>O</div>
+      </div>
+    </div>
+    <button class='reset'>reset</button>
+    <div class='status hidden'></div>
+  </body>
+</html>
+
+<style>
+  body {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: sans-serif;
+    background: black;
+    color: darkslateblue;
+  }
+
+  h1 {
+    text-transform: uppercase;
+  }
+
+  #stage {
+    width: 100%;
+    display: grid;
+    grid-template-columns: calc(50%-210px) 420px calc(50%-210px);
+    grid-template-rows: 100%;
+    column-gap: 4px;
+    row-gap: 4px;
+    margin-bottom: 40px;
+    margin-left: -20px;
+  }
+
+  .playerCard {
+    width: 50%;
+    height: 50%;
+    text-align: center;
+    padding: 150px 20px 20px 40px;
+    justify-self: center;
+    visibility: hidden;
+    color: turquoise;
+  }
+
+  .playerCard label {
+    padding: 0 12px 0 12px;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: darkslateblue;
+  }
+
+  .playerCard div {
+    font-size: 64px;
+    font-weight: bold;
+    text-shadow: 0px 0px 12px #660099;
+  }
+
+  .playerCard.winner {
+    transform: scale(1.5);
+    animation-name: pulse;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-duration: .4s;
+  }
+  .playerCard.winner::after{
+    content:'WINS!'
+  }
+
+  #board {
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    grid-template-rows: 33% 33% 33%;
+    column-gap: 12px;
+    row-gap: 12px;
+    width: 424px;
+    height: 400px;
+    justify-self: center;
+  }
+
+  .col1 {
+    grid-column-start: 1;
+    grid-column-end: 1;
+  }
+  .col2 {
+    grid-column-start: 2;
+    grid-column-end: 2;
+  }
+  .col3 {
+    grid-column-start: 3;
+    grid-column-end: 3;
+  }
+
+  .row1 {
+    grid-row-start: 1;
+    grid-row-end: 1;
+  }
+  .row2 {
+    grid-row-start: 2;
+    grid-row-end: 2;
+  }
+  .row3 {
+    grid-row-start: 3;
+    grid-row-end: 3;
+  }
+
+  .cell {
+    width: 100%;
+    height: 100%;
+    background-color: #111;
+    text-align: center;
+    line-height: 133px;
+    font-size: 64px;
+    transition: all .2s ease;
+    border: solid 1px turquoise;
+    outline: solid 1px black;
+    border-radius: 3px;
+  }
+
+  .cell:hover {
+    transition: all .2s ease;
+    border: solid 1px cyan;
+    box-shadow: 0px 0px 10px 2px darkturquoise;
+  }
+
+  .cell.winner {
+    animation-name: glowfade;
+    animation-duration: .5s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate-reverse;
+    background: black;
+  }
+
+  .cell.game-over {
+    color: black;
+  }
+
+  .cell.draw {
+    opacity: 0.5;
+    transform: scale(.9);
+    border: solid 1px #333;
+    color: #222;
+  }
+
+  button.reset {
+    background: transparent;
+    width: 200px;
+    height: 28px;
+    border-radius: 3px;
+    border: solid 1px turquoise;
+    color: darkslateblue;
+    text-shadow: 0px 0px 8px magenta;
+    text-transform: uppercase;
+    box-shadow: 0px 0px 6px 3px rgba(255,0,255,0.5);
+    outline: solid 1px black;
+  }
+
+  .status {
+    position: absolute;
+    top: 211px;
+    font-size: 114px;
+    width: 480px;
+    text-align: center;
+    text-transform: uppercase;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 8px;
+    border: solid 2px darkcyan;
+
+  }
+
+  .hidden {
+    animation-name: fadeout;
+    animation-duration: 1s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-direction: normal;
+  }
+
+  .removed {
+    display: none;
+  }
+
+  @keyframes fadeout {
+    from {
+      opacity: 1;
+      visibility: visible;
+    }
+    to {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  @keyframes glowfade {
+    from {box-shadow: 0px 0px 12px 4px magenta;}
+    to {box-shadow: 0px 0px 2px 1px turquoise;}
+  }
+
+  @keyframes pulse {
+    from {opacity: 1;}
+    to {opacity: .7;}
+  }
+</style>
+
+<script>
+  'use strict';
+
+  // init some game tracking variables
+  var curPlayer = 0;          /* keep track of current player */
+  var marks = ['X', 'O']      /* Available player marks */
+  let cells, playerCards      /* references to DOM collections */
+
+  var playerMarks = [         /* the curent game state */
+    [],                       /* a list of cells player 1 has marked */
+    []                        /* a list of cells player 2 has marked */
+  ]
+
+  var winningSets = [         /* a definition of all winning cell sets */
+    [0, 1, 2], [3, 4, 5], [6, 7, 8],    /* rows */
+    [0, 3, 6], [1, 4, 7], [2, 5, 8],    /* columns */
+    [0, 4, 8], [6, 4, 2]                /* diagonals */
+  ]
+
+  /*
+  / check if the board is full
+  / useful to determine if game is a draw
+  **/
+  function isBoardFull () {
+    return playerMarks[0].length + playerMarks[1].length === 9
+  }
+
+  /*
+  / check if there is a winning set of cells marked
+  **/
+  function isWinner (curPlayer) {
+    // get current players marks as a sorted string
+    const curPlayerMarks= playerMarks[curPlayer]
+    // for each winning set
+    const winSet = winningSets.filter(set => {
+      // if that set is included in the player's marks, it must be a win
+      if (set.every(item => curPlayerMarks.includes(item))) {
+        return set
+      }
+    })
+    // also check if board is full
+    if (isBoardFull() && winSet.length === 0) {
+      return null
+    }
+    // otherwise return false
+    return winSet.length ? winSet[0] : false
+  }
+
+  /*
+  / handle cell click events, and move the game along
+  / this is the event driven gameplay core right here
+  **/
+  function handleClick(event) {
+    const el = event.target                     /* get the event target DOM el */
+    const index = parseInt(el.id)               /* get the index of it */
+    let newVal = marks[curPlayer]               /* get the right player mark */
+    playerMarks[curPlayer].push(index)          /* update game state */
+    updateGridDisplay()                         /* tell the DOM to update the display*/
+    const result = isWinner(curPlayer)          /* check if this is a winner */
+    if (result) {
+      displayWin(result)                        /* if so, display "win mode" */
+    } else if (result === null) {
+      return displayDraw()                      /* is winner returns null for a draw */
+    } else {
+      curPlayer = curPlayer === 1 ? 0 : 1;      /* if nothing, advance game along */
+    }
+    el.removeEventListener('click', handleClick)
+    updateCurrentPlayerDisplay()                /* update display showing current player */
+  }
+
+  /*
+  / display the game in a "win state"
+  / in our case, highlighting the winning cells
+  **/
+  function displayWin(result) {
+    let winIndex = 0
+    // set all non-winning cells to the game-over mode
+    cells.forEach((cell, index) => {
+      if (!result.includes(index)) {
+        cell.classList.add('game-over')                 /* add game-over CSS */
+      }
+      cell.removeEventListener('click', handleClick)    /* remove event listeners */
+    })
+
+    // set all winning cells to the win mode
+    result.map(index => {
+      setTimeout(() => {
+        cells[index].classList.toggle('winner')
+      }, 50 * index)
+    })
+    playerCards[curPlayer].classList.add('winner')
+  }
+
+  /*
+  / display the game in a "draw" state (tie)
+  / in our case, de-emphasizing all cells
+  **/
+  function displayDraw() {
+    for (const cell of cells) {
+      cell.classList.add('draw')
+    }
+    for (const card of playerCards) {
+      card.style.visibility = 'hidden'
+    }
+    document.querySelector('button.reset').innerText = 'Draw! - reset'
+  }
+
+  /*
+  / update the grid display
+  / this loops through all cells and shows the correct player mark in them
+  **/
+  function updateGridDisplay() {
+    // for each cell in the grid
+    for (let cellIndex = 0; cellIndex < 9; cellIndex ++) {
+      // check each list of player's moves
+      playerMarks.map((playerMarkSet, player) => {
+        // to see it includes this cell index
+        if (playerMarkSet.includes(cellIndex)) {
+          // if so, mark the cell with the player's mark
+          cells[cellIndex].innerText = marks[player]
+        }
+      })
+    }
+  }
+
+  /*
+  / update the player display
+  / this toggles the player card shown, indicating current turn
+  **/
+  function updateCurrentPlayerDisplay () {
+    playerCards.forEach((playerCard, index) => {
+      if (index === curPlayer) {
+        playerCard.style.visibility = 'visible'
+      } else {
+        playerCard.style.visibility = 'hidden'
+      }
+    })
+  }
+
+  /*
+  / tell all the cells to listen for clicks
+  **/
+  function bindClickListeners () {
+    for (const cell of cells) {
+      cell.addEventListener('click', handleClick)
+    }
+  }
+
+  /*
+  / start and manage the timing of a countdown to "go!" that starts the game
+  **/
+  function runCountdown() {
+    const status = document.querySelector('.status')
+    const animationInterval = 1000
+    const values = ['3', '2', '1', 'Go!']
+
+    status.classList.toggle('hidden')          /* display the status modal */
+
+    values.forEach((value, index) => {
+      setTimeout(() => {
+        status.innerText = value
+        if (value === 'Go!') {
+          status.classList.toggle('hidden')               /* hide it again */
+          updateCurrentPlayerDisplay()
+        }
+      }, animationInterval * index)
+    })
+  }
+
+  /*
+  / reset game board display
+  **/
+  function resetBoard() {
+    playerMarks = [[],[]]
+    for (const cell of cells) {
+      cell.innerText = ''
+    }
+    for (const cell of cells) {
+      cell.classList.remove('game-over')
+      cell.classList.remove('winner')
+      cell.classList.remove('draw')
+    }
+    for (const playerCard of playerCards) {
+      playerCard.classList.remove('winner')
+      playerCard.style.visibility = 'hidden'
+    }
+    bindClickListeners()
+    document.querySelector('button.reset').innerText = 'reset'
+    runCountdown()
+  }
+
+  /*
+  / setup the game when the DOM loads
+  **/
+  document.addEventListener('DOMContentLoaded', () => {
+    cells = document.querySelectorAll('.cell')
+    playerCards = document.querySelectorAll('.playerCard')
+    playerCards.forEach((card, index) => {
+      card.querySelector('div').innerText = marks[index]
+    })
+    bindClickListeners()
+    const reset = document.querySelector('button')
+    reset.addEventListener('click', resetBoard)
+    runCountdown()
+  })
+
+</script>
