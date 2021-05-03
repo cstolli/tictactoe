@@ -1,0 +1,151 @@
+body {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: sans-serif;
+  background: black;
+  color: magenta;
+}
+
+h1 {
+  text-transform: uppercase;
+}
+
+#stage {
+  width: 100%;
+  display: grid;
+  grid-template-columns: calc(50%-210px) 420px calc(50%-210px);
+  grid-template-rows: 100%;
+  column-gap: 4px;
+  row-gap: 4px;
+  margin-bottom: 40px;
+  margin-left: -20px;
+}
+
+.playerCard {
+  width: 50%;
+  height: 50%;
+  text-align: center;
+  padding: 150px 20px 20px 40px;
+  justify-self: center;
+  visibility: hidden;
+  color: green;
+}
+
+.playerCard label {
+  padding: 0 12px 0 12px;
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: darkgreen;
+}
+
+.playerCard div {
+  font-size: 64px;
+  font-weight: bold;
+  text-shadow: 0px 0px 12px magenta;
+}
+
+.playerCard.winner {
+  transform: scale(1.5);
+  animation-name: pulse;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-duration: .4s;
+}
+.playerCard.winner::after{
+  content:'WINS!'
+}
+
+#board {
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
+  grid-template-rows: 33% 33% 33%;
+  column-gap: 12px;
+  row-gap: 12px;
+  width: 424px;
+  height: 400px;
+  justify-self: center;
+}
+
+.col1 {
+  grid-column-start: 1;
+  grid-column-end: 1;
+}
+.col2 {
+  grid-column-start: 2;
+  grid-column-end: 2;
+}
+.col3 {
+  grid-column-start: 3;
+  grid-column-end: 3;
+}
+
+.row1 {
+  grid-row-start: 1;
+  grid-row-end: 1;
+}
+.row2 {
+  grid-row-start: 2;
+  grid-row-end: 2;
+}
+.row3 {
+  grid-row-start: 3;
+  grid-row-end: 3;
+}
+
+.cell {
+  width: 100%;
+  height: 100%;
+  background-color: #080808;
+  text-align: center;
+  line-height: 133px;
+  font-size: 64px;
+  transition: all .2s ease;
+  border: solid 1px green;
+  outline: solid 1px black;
+  border-radius: 3px;
+}
+
+.cell.winner {
+  animation-name: glowfade;
+  animation-duration: .5s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate-reverse;
+  background: black;
+}
+
+.cell.game-over {
+  color: black;
+}
+
+.cell.draw {
+  opacity: 0.5;
+  transform: scale(.9);
+  border: solid 1px #333;
+  color: #222;
+}
+
+button.reset {
+  background: transparent;
+  width: 200px;
+  height: 28px;
+  border-radius: 3px;
+  border: solid 1px green;
+  color: magenta;
+  text-shadow: 0px 0px 6px white;
+  text-transform: uppercase;
+  box-shadow: 0px 0px 14px 3px green;
+  outline: solid 1px black;
+}
+
+@keyframes glowfade {
+  from {box-shadow: 0px 0px 12px 4px magenta;}
+  to {box-shadow: 0px 0px 2px 1px green;}
+}
+
+@keyframes pulse {
+  from {opacity: 1;}
+  to {opacity: .7;}
+}
